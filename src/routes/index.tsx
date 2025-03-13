@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "../pages/Login";
 import PrivateRoute from "./PrivateRoute";
 import { AuthProvider } from "../context/auth-context";
@@ -25,6 +25,9 @@ const AppRoutes = () => {
           <UserProvider>
             <AppointmentProvider>
               <Routes>
+
+                <Route path="/" element={<Navigate to="/dashboard" />} />
+
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<SignUp />} />
                 <Route path="/register-success" element={<RegisterSuccess />} />
@@ -41,6 +44,9 @@ const AppRoutes = () => {
                     <Route path="report" element={<HealthReport />} />
                   </Route>
                 </Route>
+
+                <Route path="*" element={<h1>Página no encontrada</h1>} />
+                
               </Routes>
             </AppointmentProvider>
           </UserProvider>
