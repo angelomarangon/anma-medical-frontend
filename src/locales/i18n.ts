@@ -82,6 +82,7 @@ const resources = {
             yesDelete: "Yes, delete",
 
             // Profile
+            myProfileTitle: "MY PROFILE",
             identityDocument: "Identity Document",
             socialSecurityNumber: "Social Security Number",
             email: "Email",
@@ -147,7 +148,7 @@ const resources = {
             oncology: "Oncologia",
 
             // Home
-            generalViewAppointments: "Vista generale degli appuntamenti",
+            generalViewAppointments: "VISTA GENERALE DEGLI APPUNTAMENTI",
             appointmentCalendar: "Calendario degli appuntamenti",
             scheduledAppointment: "Appuntamento programmato",
             upcomingAppointments: "Prossimi appuntamenti",
@@ -159,16 +160,16 @@ const resources = {
 
             // Sidebar
             home: "Home",
-            myAppointments: "I miei appuntamenti",
+            myAppointments: "I Miei Appuntamenti",
             myProfile: "Il mio profilo",
             history: "Storico",
-            medicalDocuments: "Documenti medici",
-            medicalServices: "Servizi medici",
-            medicalDirectory: "Elenco medico",
-            healthReport: "Rapporto sulla salute",
+            medicalDocuments: "Documenti Medici",
+            medicalServices: "Servizi Medici",
+            medicalDirectory: "Elenco Medico",
+            healthReport: "Rapporto Sulla Salute",
 
             // AppointmentList
-            myAppointmentsList: "I miei appuntamenti",
+            myAppointmentsList: "I MIEI APPUNTAMENTI",
             loadingAppointments: "Caricamento appuntamenti…",
             noScheduledAppointments: "Non hai appuntamenti programmati",
             delete: "Eliminare",
@@ -181,8 +182,9 @@ const resources = {
             yesDelete: "Sì, elimina",
 
             // Profile
+            myProfileTitle: "IL MIO PROFILO",
             identityDocument: "Documento d’identità",
-            socialSecurityNumber: "Numero di previdenza sociale",
+            socialSecurityNumber: "Codice Fiscale",
             email: "Email",
             phone: "Telefono",
             address: "Indirizzo",
@@ -246,9 +248,9 @@ const resources = {
             oncology: "Oncología",
 
             // Home
-            generalViewAppointments: "Vista general de turnos",
+            generalViewAppointments: "VISTA GENERAL DE TURNOS",
             appointmentCalendar: "Calendario de turnos",
-            scheduledAppointment: "Cita programada",
+            scheduledAppointment: "Turno programado",
             upcomingAppointments: "Próximos turnos",
             scheduled: "Programada",
             completed: "Completada",
@@ -267,7 +269,7 @@ const resources = {
             healthReport: "Reporte de Salud",
 
             // AppointmentList
-            myAppointmentsList: "Mis Turnos",
+            myAppointmentsList: "MIS TURNOS",
             loadingAppointments: "Cargando citas…",
             noScheduledAppointments: "No tienes citas programadas",
             delete: "Eliminar",
@@ -280,6 +282,7 @@ const resources = {
             yesDelete: "Sí, eliminar",
 
             // Profile
+            myProfileTitle: "MI PERFIL",
             identityDocument: "Documento de identidad",
             socialSecurityNumber: "Número de seguridad social",
             email: "Correo Electrónico",

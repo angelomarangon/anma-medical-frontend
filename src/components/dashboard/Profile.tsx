@@ -109,7 +109,7 @@ const Profile = () => {
     <form onSubmit={handleSave} className="px-6 py-12 space-y-8">
       {/* 📌 Título */}
       <h2 className="text-3xl font-bold flex items-center gap-2 text-gray-800">
-        <UserCircle size={30} className="text-blue-600" /> {t("myProfile")}
+        <UserCircle size={30} className="text-blue-600" /> {t("myProfileTitle")}
       </h2>
 
       {/* 📸 Sección Superior */}
