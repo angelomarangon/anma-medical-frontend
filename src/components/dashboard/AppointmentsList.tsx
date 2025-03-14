@@ -10,12 +10,14 @@ import {
   DialogDescription,
 } from "../ui/dialog";
 import { Button } from "../ui/button";
+import { useTranslation } from "react-i18next";
 
 const AppointmentsList = () => {
   const { appointments, loading, cancelAppointment, deleteAppointment } = useAppointments();
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [selectedAppointmentId, setSelectedAppointmentId] = useState<string | null>(null);
   const [modalType, setModalType] = useState<"cancel" | "delete">("cancel");
+  const { t } = useTranslation();
 
   const handleCancelClick = (appointmentId: string) => {
     setSelectedAppointmentId(appointmentId);
@@ -46,7 +48,7 @@ const AppointmentsList = () => {
       {/* 📅 Título con icono */}
       <h2 className="text-3xl font-bold flex items-center gap-2 text-gray-800">
         <CalendarCheck size={30} className="text-blue-600" />
-        Mis Citas
+        {t("myAppointmentsList")}
       </h2>
 
       {/* 🗂 Contenedor de citas */}
@@ -81,7 +83,7 @@ const AppointmentsList = () => {
                     <p className="text-gray-600 flex items-center gap-2 mt-1">
                       <CalendarDays size={16} className="text-gray-500" />
                       <span className="font-medium">
-                        {new Date(app.date).toLocaleDateString("es-ES", {
+                        {new Date(app.date).toLocaleDateString(t("localeLang"), {
                           day: "numeric",
                           month: "long",
                           year: "numeric",
@@ -105,7 +107,7 @@ const AppointmentsList = () => {
                       app.status === "scheduled" ? "bg-blue-500" : "bg-red-500"
                     }`}
                   >
-                    {app.status === "scheduled" ? "Programada" : "Cancelada"}
+                    {app.status === "scheduled" ? t("scheduled") : t("canceled")}
                   </span>
 
                   {/* Botón de acción */}
@@ -116,7 +118,7 @@ const AppointmentsList = () => {
                       onClick={() => handleCancelClick(app.id)}
                     >
                       <AlertTriangle size={18} />
-                      Cancelar
+                      {t("cancel")}
                     </Button>
                   ) : (
                     <Button
@@ -125,7 +127,7 @@ const AppointmentsList = () => {
                       onClick={() => handleDeleteClick(app.id)}
                     >
                       <Trash2 size={18} />
-                      Eliminar
+                      {t("delete")}
                     </Button>
                   )}
                 </div>
@@ -133,7 +135,7 @@ const AppointmentsList = () => {
             ))}
           </div>
         ) : (
-          <p className="text-gray-500 text-center">No tienes citas programadas</p>
+          <p className="text-gray-500 text-center">{t("noScheduledAppointments")}</p>
         )}
       </div>
 
@@ -142,23 +144,23 @@ const AppointmentsList = () => {
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="text-xl font-bold">
-              {modalType === "cancel" ? "¿Cancelar esta cita?" : "¿Eliminar esta cita?"}
+              {modalType === t("cancel") ? t("cancelAppointment") : t("deleteAppointment")}
             </DialogTitle>
             <DialogDescription>
-              {modalType === "cancel"
-                ? "Esta acción no se puede deshacer. ¿Estás seguro de cancelar la cita?"
-                : "Esta acción eliminará permanentemente la cita. ¿Estás seguro?"}
+              {modalType === t("cancel")
+                ? t("confirmCancel")
+                : t("confirmDelete")}
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="flex justify-end space-x-3">
             <Button variant="outline" onClick={() => setShowConfirmModal(false)}>
-              No, volver
+              {t("noGoBack")}
             </Button>
             <Button
-              variant={modalType === "cancel" ? "destructive" : "secondary"}
-              onClick={modalType === "cancel" ? handleConfirmCancel : handleConfirmDelete}
+              variant={modalType === t("cancel") ? "destructive" : "secondary"}
+              onClick={modalType === t("cancel") ? handleConfirmCancel : handleConfirmDelete}
             >
-              {modalType === "cancel" ? "Sí, cancelar" : "Sí, eliminar"}
+              {modalType === t("cancel") ? t("yesCancel") : t("yesDelete")}
             </Button>
           </DialogFooter>
         </DialogContent>

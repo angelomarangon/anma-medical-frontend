@@ -1,16 +1,18 @@
 import CalendarComponent from "./Calendar";
 import { useAppointments } from "../../context/appointment-context";
 import { CalendarCheck, ClipboardList } from "lucide-react"; // Íconos
+import { useTranslation } from "react-i18next";
 
 const Home = () => {
     const { appointments } = useAppointments();
+    const { t } = useTranslation();
 
     return (
         <div className="px-6 py-12 space-y-12">
             {/* 🏷️ Título principal con icono */}
             <h2 className="text-3xl font-bold flex items-center gap-2 text-gray-800 mb-8">
                 <CalendarCheck size={30} className="text-blue-600" />
-                Vista General de Turnos
+                {t("generalViewAppointments")}
             </h2>
 
             {/* 📅 Sección de Calendario */}
@@ -22,7 +24,8 @@ const Home = () => {
             <div className="bg-white p-6 shadow-lg rounded-xl">
                 <h3 className="text-xl font-semibold flex items-center gap-2 text-gray-800">
                     <ClipboardList size={24} className="text-green-600" />
-                    Próximas Citas
+                    {/* proximos turnos */}
+                    {t("upcomingAppointments")} 
                 </h3>
 
                 {/* 📄 Lista de citas */}
@@ -47,7 +50,7 @@ const Home = () => {
                                         {app.doctor?.gender === "Femenino" ? "Dra." : "Dr."} {app.doctor.name} ({app.doctor.specialty})
                                     </strong>
                                     <p className="text-gray-600 text-sm">
-                                        📅 {new Date(app.date).toLocaleDateString("es-ES", {
+                                        📅 {new Date(app.date).toLocaleDateString(t("localeLang"), {
                                             weekday: "long",
                                             day: "numeric",
                                             month: "long",
@@ -66,15 +69,16 @@ const Home = () => {
                                         }`}
                                 >
                                     {app.status === "scheduled"
-                                        ? "Programada"
+                                        ? t("scheduled")
                                         : app.status === "completed"
-                                            ? "Completada"
-                                            : "Cancelada"}
+                                            ? t("completed")
+                                            : t("canceled")}
                                 </span>
                             </li>
                         ))
                     ) : (
-                        <p className="text-gray-500 text-center">No hay citas próximas.</p>
+                        // no hay turnos proximos
+                        <p className="text-gray-500 text-center">{t("noUpcomingAppointments")}</p> 
                     )}
                 </ul>
             </div>

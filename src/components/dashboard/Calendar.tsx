@@ -3,13 +3,14 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 // import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import esLocale from "@fullcalendar/core/locales/es";
+// import esLocale from "@fullcalendar/core/locales/es";
 import axios from "axios";
 import { useAuth } from "../../context/auth-context";
 import { useAppointments } from "../../context/appointment-context";
 import { EventContentArg } from "@fullcalendar/core";
 import Tooltip from "@mui/material/Tooltip";
 import { CalendarDays, Stethoscope, HeartPulse, Clock } from "lucide-react"; // 🔹 Iconos profesionales
+import { useTranslation } from "react-i18next";
 
 interface Doctor {
   name: string;
@@ -29,6 +30,7 @@ const CalendarComponent = () => {
   const [events, setEvents] = useState([]);
   const { user, token } = useAuth();
   const { appointments: updatedAppointments } = useAppointments();
+  const { t } = useTranslation();
 
   // ✅ Obtener citas del usuario desde el backend
   const fetchUserAppointments = useCallback(async () => {
@@ -105,8 +107,8 @@ const CalendarComponent = () => {
                 }`}
               >
                 {eventInfo.event.extendedProps.status === "scheduled"
-                  ? "Programada"
-                  : "Cancelada"}
+                  ? t("scheduled")
+                  : t("Canceled")}
               </span>
             </p>
           </div>
@@ -130,13 +132,14 @@ const CalendarComponent = () => {
       {/* ✅ Título con icono profesional y tipografía mejorada */}
       <h2 className="text-3xl font-semibold mb-6 flex items-center justify-center text-gray-800 font-poppins">
         <CalendarDays size={28} className="text-blue-600 mr-2" />
-        Calendario de Turnos
+        {/* Calendario de turnos */}
+        {t("appointmentCalendar")}
       </h2>
 
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
-        locale={esLocale}
+        locale={t("localeLang")}
         events={events}
         eventClassNames={eventClassNames}
         eventContent={renderEventContent}
@@ -146,8 +149,8 @@ const CalendarComponent = () => {
           right: "dayGridMonth",
         }}
         buttonText={{
-          today: "Hoy",
-          month: "Mes",
+          today: t("today"),
+          month: t("month"),
         }}
         height="auto"
       />
@@ -156,11 +159,13 @@ const CalendarComponent = () => {
       <div className="mt-6 w-full flex justify-center gap-6 text-sm text-gray-700">
         <div className="flex items-center gap-2">
           <span className="w-4 h-4 bg-blue-300 rounded-sm"></span>
-          Cita Programada
+          {/* Turno programado */}
+          {t("scheduledAppointment")}
         </div>
         <div className="flex items-center gap-2">
           <span className="w-4 h-4 bg-red-300 rounded-sm"></span>
-          Cita Cancelada
+          {/* Turno cancelado */}
+          {t("appointmentCanceled")}
         </div>
       </div>
     </div>

@@ -1,49 +1,64 @@
 import { useState } from "react";
-import { LogOut, PlusCircle, HeartPulse } from "lucide-react"; // ✅ Se usa un ícono médico profesional
+import { LogOut, PlusCircle, HeartPulse } from "lucide-react";
 import { useAuth } from "../../context/auth-context";
 import BookingModal from "../dashboard/BookingModal";
+import { useTranslation } from "react-i18next";
+// import { Menu, Transition } from "@headlessui/react";
+// import { Fragment } from "react";
+import { motion } from "framer-motion";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { t } = useTranslation();
 
   return (
-    <nav className="bg-primary text-white p-4 flex justify-between items-center shadow-md fixed w-full top-0 left-0 z-50">
+    <nav className="bg-primary text-white px-6 py-3 flex justify-between items-center shadow-md fixed w-full top-0 left-0 z-50">
       {/* LOGOTIPO */}
-      <div className="flex items-center gap-2 px-4">
-        <HeartPulse size={30} className="text-blue-500" /> {/* Icono médico */}
-        <span className="text-xl font-semibold tracking-wide" style={{ fontFamily: 'Poppins, sans-serif' }}>
-         ANMA MEDICAL
+      <div className="flex items-center gap-2">
+        <HeartPulse size={32} className="text-blue-400" />
+        <span className="text-xl font-semibold tracking-wide font-poppins">
+          ANMA MEDICAL
         </span>
       </div>
 
-      {/* ACCIONES (Botón de reserva y logout) */}
-      <div className="flex gap-4 pr-4 items-center">
-        {user && (
-          <span className="text-sm opacity-80 hidden md:inline-block mr-4">
-            Bienvenido, <strong>{user.name}</strong>
-          </span>
-        )} 
 
-        {BookingModal! && (
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md transition"
-            aria-label="Reservar Cita"
+      {/* DERECHA - ACCIONES */}
+      <div className="flex gap-4 items-center">
+        {user && (
+          <motion.span
+            initial={{ opacity: 0, y: -5 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="text-sm opacity-80 hidden md:inline-block"
           >
-            <PlusCircle size={20} />
-            <span>Reservar Turno</span>
-          </button>
+            {t("welcome")}, <strong>{user.name}</strong>
+          </motion.span>
         )}
 
-        <button
+        {BookingModal! && (
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setIsModalOpen(true)}
+            className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-md transition"
+            aria-label="Reservar Turno"
+          >
+            <PlusCircle size={18} />
+            <span>{t("bookAppointment")}</span>
+          </motion.button>
+        )}
+
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={logout}
           className="flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md transition"
           aria-label="Cerrar Sesión"
         >
           <LogOut size={20} />
-          <span>Cerrar Sesión</span>
-        </button>
+          <span>{t("logout")}</span>
+        </motion.button>
       </div>
 
       {/* MODAL */}

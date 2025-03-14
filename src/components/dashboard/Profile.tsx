@@ -4,12 +4,14 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { es } from "date-fns/locale";
+// import { es } from "date-fns/locale";
 import { parse, format } from "date-fns";
 import { useUser } from "../../context/user-context";
+import { useTranslation } from "react-i18next";
 
 const Profile = () => {
   const { user, updateUser } = useUser();
+  const { t } = useTranslation();
   const [isEditing, setIsEditing] = useState(false);
   const [profileImage, setProfileImage] = useState<string | null>(null);
   const [formData, setFormData] = useState({
@@ -39,53 +41,56 @@ const Profile = () => {
         city: user.city || "",
         bloodType: user.bloodType || "",
         gender: user.gender || "",
-        birthDate: user.birthDate ? format(new Date(user.birthDate), "dd/MM/yyyy") : "",
+        birthDate: user.birthDate
+          ? format(new Date(user.birthDate), "dd/MM/yyyy")
+          : "",
       });
     }
   }, [user]);
 
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement> ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSave = async (e: React.FormEvent) => {
-    e.preventDefault(); // ✅ Evita la recarga del formulario
+    e.preventDefault();
 
-    // ✅ Formateamos los datos asegurando que las claves coincidan con formData
+    // Validar si la fecha de nacimiento es válida antes de formatearla
+    const formattedBirthDate = formData.birthDate
+      ? (() => {
+        try {
+          return parse(formData.birthDate, "dd/MM/yyyy", new Date()).toISOString();
+        } catch (error) {
+          console.error("Error parsing birthDate:", error);
+          return null;
+        }
+      })()
+      : null;
+
+    // Enviar los datos actualizados
     const updatedData = {
       ...formData,
-      birthDate: formData.birthDate
-        ? parse(formData.birthDate, "dd/MM/yyyy", new Date()).toISOString()
-        : null,
+      birthDate: formattedBirthDate,
     };
 
     const success = await updateUser(updatedData);
 
     if (success) {
-      // ✅ Actualizamos el estado local del usuario sin recargar
       setFormData((prevData) => ({
         ...prevData,
-        ...{
-          documento: updatedData.identityNumber,
-          seguridadSocial: updatedData.socialSecurity,
-          correo: updatedData.email,
-          telefono: updatedData.phone,
-          domicilio: updatedData.address,
-          codigoPostal: updatedData.postalCode,
-          localidad: updatedData.city,
-          grupoSanguineo: updatedData.bloodType,
-          genero: updatedData.gender,
-          birthDate: format(new Date(updatedData.birthDate || ""), "dd/MM/yyyy"),
-        },
+        birthDate: updatedData.birthDate
+          ? format(new Date(updatedData.birthDate), "dd/MM/yyyy")
+          : "",
       }));
 
-      setIsEditing(false); // ✅ Cambia a modo vista sin interrupciones
+      setIsEditing(false);
       console.log("✅ Usuario actualizado correctamente");
     } else {
       console.error("❌ Error al actualizar usuario");
     }
   };
+
 
 
   if (!user) return <div className="text-center py-6">Cargando usuario...</div>;
@@ -104,7 +109,7 @@ const Profile = () => {
     <form onSubmit={handleSave} className="px-6 py-12 space-y-8">
       {/* 📌 Título */}
       <h2 className="text-3xl font-bold flex items-center gap-2 text-gray-800">
-        <UserCircle size={30} className="text-blue-600" /> Mi Perfil
+        <UserCircle size={30} className="text-blue-600" /> {t("myProfile")}
       </h2>
 
       {/* 📸 Sección Superior */}
@@ -144,16 +149,16 @@ const Profile = () => {
         {/* 📄 Información de Usuario */}
         <div className="p-8 grid grid-cols-2 gap-6">
           {[
-            { label: "Documento de Identidad", name: "identityNumber" },
-            { label: "Número Seguridad Social", name: "socialSecurity" },
-            { label: "Correo Electrónico", name: "email", readOnly: true },
-            { label: "Teléfono", name: "phone" },
-            { label: "Domicilio", name: "address" },
-            { label: "Código Postal", name: "postalCode" },
-            { label: "Localidad", name: "city" },
-            { label: "Género", name: "gender", type: "select", options: ["Masculino", "Femenino", "Otro"] },
-            { label: "Grupo Sanguíneo", name: "bloodType", type: "select", options: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"] },
-            { label: "Fecha de Nacimiento", name: "birthDate", type: "date" },
+            { label: t("identityDocument"), name: "identityNumber" },
+            { label: t("socialSecurityNumber"), name: "socialSecurity" },
+            { label: t("email"), name: "email", readOnly: true },
+            { label: t("phone"), name: "phone" },
+            { label: t("address"), name: "address" },
+            { label: t("postalCode"), name: "postalCode" },
+            { label: t("city"), name: "city" },
+            { label: t("gender"), name: "gender", type: "select", options: [t("male"), t("female"), t("other")] },
+            { label: t("bloodType"), name: "bloodType", type: "select", options: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"] },
+            { label: t("birthDate"), name: "birthDate", type: "date" },
           ].map(({ label, name, readOnly, type, options }) => (
             <div key={name}>
               <label className="text-sm font-medium">{label}</label>
@@ -170,7 +175,7 @@ const Profile = () => {
                       })
                     }
                     dateFormat="dd/MM/yyyy"
-                    locale={es}
+                    locale={t("localeLang")}
                     disabled={!isEditing}
                     className={`w-full px-3 py-2 border rounded-md text-gray-700 ${!isEditing ? "bg-gray-100 cursor-not-allowed" : "bg-white cursor-pointer"}`}
                   />
@@ -183,7 +188,7 @@ const Profile = () => {
                   disabled={!isEditing}
                   className={`w-full px-3 py-2 border rounded-md text-gray-700 ${!isEditing ? "bg-gray-100 cursor-not-allowed" : "bg-white"}`}
                 >
-                  <option value="">Seleccionar...</option>
+                  <option value="">{t("selectOption")}</option>
                   {options?.map((option) => (
                     <option key={option} value={option}>{option}</option>
                   ))}
@@ -207,7 +212,7 @@ const Profile = () => {
           {isEditing ? (
             <Button type="submit" className="flex items-center gap-2">
               <Save size={18} />
-              Guardar Cambios
+              {t("saveChanges")}
             </Button>
           ) : (
             <Button
@@ -220,14 +225,14 @@ const Profile = () => {
               }}
             >
               <Edit size={18} />
-              Editar Perfil
+              {t("editProfile")}
             </Button>
 
           )}
 
           <Button type="button" variant="destructive" className="flex items-center gap-2">
             <Lock size={18} />
-            Cambiar Contraseña
+            {t("changePassword")}
           </Button>
         </div>
       </div>

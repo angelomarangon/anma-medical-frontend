@@ -16,6 +16,7 @@ import { useDoctors } from "../../context/doctor-context";
 import { useAppointments } from "../../context/appointment-context";
 import { useAuth } from "../../context/auth-context";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 interface BookingModalProps {
     isOpen: boolean;
@@ -27,6 +28,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onBookingS
     const { doctors, getAllDoctors } = useDoctors();
     const { createAppointment } = useAppointments();
     const { token } = useAuth();
+    const { t } = useTranslation();
 
     const [specialty, setSpecialty] = useState("");
     const [doctor, setDoctor] = useState("");
@@ -211,18 +213,18 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onBookingS
         <Dialog open={isOpen} onOpenChange={onClose}>
             <DialogContent className="max-w-md p-6 space-y-4">
                 <DialogHeader>
-                    <DialogTitle className="text-lg font-bold">Solicitud de Turno</DialogTitle>
+                    <DialogTitle className="text-lg font-bold">{t("appointmentRequest")}</DialogTitle>
                     <DialogDescription>
-                        Selecciona la especialidad, doctor, fecha y horario para tu cita.
+                        {t("selectDetails")}
                     </DialogDescription>
                 </DialogHeader>
 
                 {/* 🏥 Selección de especialidad */}
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium">Especialidad</label>
+                    <label className="text-sm font-medium">{t("specialty")}</label>
                     <Select value={specialty} onValueChange={setSpecialty}>
                         <SelectTrigger>
-                            <SelectValue placeholder="Selecciona una especialidad" />
+                            <SelectValue placeholder={t("selectSpecialty")} />
                         </SelectTrigger>
                         <SelectContent>
                             {uniqueSpecialties.length > 0 ? (
@@ -233,7 +235,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onBookingS
                                 ))
                             ) : (
                                 <SelectItem value="none" disabled>
-                                    No hay especialidades disponibles
+                                    {t("noSpecialty")}
                                 </SelectItem>
                             )}
                         </SelectContent>
@@ -242,10 +244,10 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onBookingS
 
                 {/* 👨‍⚕️ Selección de doctor */}
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium">Doctor</label>
+                    <label className="text-sm font-medium">{t("doctor")}</label>
                     <Select value={doctor} onValueChange={setDoctor} disabled={!filteredDoctors.length}>
                         <SelectTrigger>
-                            <SelectValue placeholder="Selecciona un doctor" />
+                            <SelectValue placeholder={t("selectDoctor")} />
                         </SelectTrigger>
                         <SelectContent>
                             {filteredDoctors.length > 0 ? (
@@ -256,7 +258,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onBookingS
                                 ))
                             ) : (
                                 <SelectItem value="none" disabled>
-                                    No hay doctores disponibles
+                                    {t("noDoctor")}
                                 </SelectItem>
                             )}
                         </SelectContent>
@@ -265,25 +267,25 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onBookingS
 
                 {/* 📅 Selección de fecha con `react-datepicker` */}
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium">Fecha</label>
+                    <label className="text-sm font-medium">{t("date")}</label>
                     <DatePicker
                         selected={selectedDate}
                         onChange={(date) => setSelectedDate(date)}
                         filterDate={isDayAvailable} // Solo habilita los días en los que trabaja el doctor
                         minDate={new Date()} // No permite seleccionar fechas pasadas
                         dateFormat="dd/MM/yyyy"
-                        locale={es}
+                        locale={t("localeLang")}
                         className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-white"
-                        placeholderText="Selecciona una fecha"
+                        placeholderText={t("selectDate")}
                     />
                 </div>
 
                 {/* ⏰ Selección de horario */}
                 <div className="flex flex-col">
-                    <label className="text-sm font-medium">Horario</label>
+                    <label className="text-sm font-medium">{t("time")}</label>
                     <Select value={selectedTime} onValueChange={setSelectedTime} disabled={!availableTimes.length}>
                         <SelectTrigger>
-                            <SelectValue placeholder="Selecciona un horario" />
+                            <SelectValue placeholder={t("selectTime")} />
                         </SelectTrigger>
                         <SelectContent>
                             {availableTimes.length > 0 ? (
@@ -294,7 +296,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onBookingS
                                 ))
                             ) : (
                                 <SelectItem value="none" disabled>
-                                    No hay horarios disponibles
+                                    {t("noTimes")}
                                 </SelectItem>
                             )}
                         </SelectContent>
@@ -303,9 +305,9 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onBookingS
 
                 {/* 🏁 Botones */}
                 <div className="flex justify-end space-x-2">
-                    <Button variant="outline" onClick={onClose}>Cancelar</Button>
+                    <Button variant="outline" onClick={onClose}>{t("cancel")}</Button>
                     <Button onClick={handleConfirm} disabled={!selectedDate || !specialty || !doctor || !selectedTime} className="bg-green-500 hover:bg-green-600">
-                        Confirmar
+                        {t("confirm")}
                     </Button>
                 </div>
             </DialogContent>
