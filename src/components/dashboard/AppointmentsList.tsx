@@ -144,10 +144,10 @@ const AppointmentsList = () => {
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="text-xl font-bold">
-              {modalType === t("cancel") ? t("cancelAppointment") : t("deleteAppointment")}
+              {modalType === "cancel" ? t("cancelAppointment") : t("deleteAppointment")}
             </DialogTitle>
             <DialogDescription>
-              {modalType === t("cancel")
+              {modalType === "cancel"
                 ? t("confirmCancel")
                 : t("confirmDelete")}
             </DialogDescription>
@@ -157,10 +157,10 @@ const AppointmentsList = () => {
               {t("noGoBack")}
             </Button>
             <Button
-              variant={modalType === t("cancel") ? "destructive" : "secondary"}
-              onClick={modalType === t("cancel") ? handleConfirmCancel : handleConfirmDelete}
+              variant={modalType === "cancel" ? "destructive" : "secondary"}
+              onClick={modalType === "cancel" ? handleConfirmCancel : handleConfirmDelete}
             >
-              {modalType === t("cancel") ? t("yesCancel") : t("yesDelete")}
+              {modalType === "cancel" ? t("yesCancel") : t("yesDelete")}
             </Button>
           </DialogFooter>
         </DialogContent>

@@ -175,7 +175,7 @@ const Profile = () => {
                       })
                     }
                     dateFormat="dd/MM/yyyy"
-                    locale={t("localeLang")}
+                    locale={t("localeLang") as string}
                     disabled={!isEditing}
                     className={`w-full px-3 py-2 border rounded-md text-gray-700 ${!isEditing ? "bg-gray-100 cursor-not-allowed" : "bg-white cursor-pointer"}`}
                   />

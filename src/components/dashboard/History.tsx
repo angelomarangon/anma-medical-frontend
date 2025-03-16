@@ -4,6 +4,7 @@ import { CalendarCheck, Download, Search } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "../ui/select";
+import { useTranslation } from "react-i18next";
 
 // 📌 Definimos la interfaz para TypeScript
 interface Appointment {
@@ -19,6 +20,7 @@ const History = () => {
   const [filteredAppointments, setFilteredAppointments] = useState<Appointment[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterSpecialty, setFilterSpecialty] = useState("all");
+  const { t } = useTranslation();
 
   useEffect(() => {
     const filtered = appointments.filter(
@@ -36,10 +38,10 @@ const History = () => {
       <div className="flex justify-between items-center">
         <h2 className="text-3xl font-bold flex items-center gap-2 text-gray-800">
           <CalendarCheck size={30} className="text-blue-600" />
-          Historial de Consultas
+          {t("consultationHistory")}
         </h2>
         <Button variant="secondary" className="flex items-center gap-2">
-          <Download size={18} /> Descargar Historial
+          <Download size={18} /> {t("consultationHistory")}
         </Button>
       </div>
 
@@ -48,7 +50,7 @@ const History = () => {
         <div className="relative w-1/3">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" size={16} />
           <Input
-            placeholder="Buscar por médico..."
+            placeholder={t("searchByDoctors")}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10"
@@ -56,10 +58,10 @@ const History = () => {
         </div>
         <Select onValueChange={setFilterSpecialty}>
           <SelectTrigger className="w-1/3">
-            <SelectValue placeholder="Filtrar por especialidad" />
+            <SelectValue placeholder={t("filterBySpecialty")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Todas las especialidades</SelectItem>
+            <SelectItem value="all">{t("allSpecialties")}</SelectItem>
             <SelectItem value="Cardiología">Cardiología</SelectItem>
             <SelectItem value="Dermatología">Dermatología</SelectItem>
             <SelectItem value="Pediatría">Pediatría</SelectItem>
@@ -90,7 +92,7 @@ const History = () => {
             ))}
           </div>
         ) : (
-          <p className="text-gray-500 text-center">No hay consultas completadas</p>
+          <p className="text-gray-500 text-center">{t("noCompletedConsultations")}</p>
         )}
       </div>
     </div>
