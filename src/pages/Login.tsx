@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import { useAuth } from "../context/auth-context";
 import { useNavigate, Link } from "react-router-dom";
 import { HeartPulse } from "lucide-react";
@@ -14,17 +14,24 @@ const Login = () => {
     const [errors, setErrors] = useState({ email: "", password: "" });
     const [loading, setLoading] = useState(false);
 
-    // 📌 Cambio de idioma
-    const changeLanguage = (lng: string) => {
-        i18n.changeLanguage(lng);
-    };
-
     // 📌 Lista de idiomas con banderas
     const languages = [
         { code: "es", flag: "🇪🇸" },
         { code: "en", flag: "🇺🇸" },
         { code: "it", flag: "🇮🇹" },
     ];
+
+    // 📌 Establecer español como idioma predeterminado al montar el componente
+    useEffect(() => {
+        if (!i18n.language || !["es", "en", "it"].includes(i18n.language)) {
+            i18n.changeLanguage("es"); // ✅ Fijar español como predeterminado
+        }
+    }, [i18n]);
+
+    // 📌 Cambio de idioma
+    const changeLanguage = (lng: string) => {
+        i18n.changeLanguage(lng);
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -71,10 +78,10 @@ const Login = () => {
                     </span>
                 </div>
 
-                {/* Selector de idioma */}
+                {/* Selector de idioma con bandera por defecto */}
                 <Menu as="div" className="relative inline-block text-left">
                     <Menu.Button className="flex items-center justify-center px-3 py-1 bg-gray-800 hover:bg-gray-700 text-white rounded-full transition text-sm w-10 h-10">
-                        <span className="text-lg">{languages.find((l) => l.code === i18n.language)?.flag}</span>
+                        <span className="text-lg">{languages.find((l) => l.code === i18n.language)?.flag || "🇪🇸"}</span>
                     </Menu.Button>
 
                     <Transition
