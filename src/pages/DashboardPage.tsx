@@ -3,6 +3,7 @@ import Sidebar from "../components/dashboard/Sidebar";
 import Navbar from "../components/dashboard/Navbar";
 import { useAuth } from "../context/auth-context";
 import Loading from "../components/Loading";
+import SidebarMobile from "../components/dashboard/SidebarMobile";
 
 const Dashboard = () => {
     const { user, token } = useAuth();
@@ -15,6 +16,7 @@ const Dashboard = () => {
         <div className="flex bg-gray-100 min-h-screen">
             {/* Sidebar fijo */}
             <Sidebar />
+            <SidebarMobile />
             
             {/* Contenedor Principal */}
             <div className="flex-1 flex flex-col">

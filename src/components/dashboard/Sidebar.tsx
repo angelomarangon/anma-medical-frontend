@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 import { Menu, Transition } from "@headlessui/react";
 
 const Sidebar = () => {
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(false); // Solo usado en escritorio
   const location = useLocation();
   const { t, i18n } = useTranslation();
 
@@ -34,7 +34,6 @@ const Sidebar = () => {
     { name: t("healthReport"), path: "/dashboard/report", icon: <ReportIcon /> },
   ];
 
-  // 📌 Idiomas con emojis
   const languages = [
     { code: "es", name: "Español", flag: "🇪🇸" },
     { code: "en", name: "English", flag: "🇺🇸" },
@@ -43,8 +42,7 @@ const Sidebar = () => {
 
   return (
     <aside
-      className={`h-screen bg-gray-900 text-white fixed top-0 left-0 flex flex-col transition-all duration-300 shadow-lg z-50 ${expanded ? "w-60" : "w-20"
-        }`}
+      className={`aside h-screen bg-gray-900 text-white fixed top-0 left-0 flex flex-col transition-all duration-300 shadow-lg z-50 ${expanded ? "w-60" : "w-20"}`}
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
     >
@@ -58,16 +56,14 @@ const Sidebar = () => {
       {/* MENÚ */}
       <nav className="flex flex-col w-full mt-6 ml-3 space-y-1">
         {menuItems.map((item) => {
-          const isActive =
-            location.pathname === item.path || (location.pathname.startsWith(item.path) && item.path !== "/dashboard");
+          const isActive = location.pathname === item.path || (location.pathname.startsWith(item.path) && item.path !== "/dashboard");
 
           return (
             <Link
               key={item.name}
               to={item.path}
               aria-label={item.name}
-              className={`flex items-center w-full px-4 py-3 transition-all duration-200 rounded-md ${isActive ? "bg-blue-600 text-white" : "hover:bg-gray-700"
-                }`}
+              className={`flex items-center w-full px-4 py-3 transition-all duration-200 rounded-md ${isActive ? "bg-blue-600 text-white" : "hover:bg-gray-700"}`}
             >
               <span className="w-10 h-10 flex items-center justify-center">{item.icon}</span>
               <span className={`ml-4 text-sm transition-opacity duration-300 ${expanded ? "opacity-100" : "opacity-0"}`}>
@@ -91,7 +87,6 @@ const Sidebar = () => {
             )}
           </Menu.Button>
 
-          {/* MENÚ DESPLEGABLE CENTRADO */}
           <Transition
             as={Fragment}
             enter="transition ease-out duration-200"
@@ -107,8 +102,7 @@ const Sidebar = () => {
                   {({ active }) => (
                     <button
                       onClick={() => changeLanguage(lang.code)}
-                      className={`${active ? "bg-gray-100" : ""
-                        } flex items-center gap-2 w-full px-4 py-2 text-gray-700 rounded-md`}
+                      className={`${active ? "bg-gray-100" : ""} flex items-center gap-2 w-full px-4 py-2 text-gray-700 rounded-md`}
                     >
                       <span className="text-lg">{lang.flag}</span> {lang.name}
                     </button>

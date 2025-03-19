@@ -1,0 +1,170 @@
+/* Estilos generales del botón para reservar */
+.reserve-btn {
+    font-size: 1rem;
+    padding: 0.5rem 1rem; /* Tamaño base del botón */
+}
+  
+  /* Mostrar el ícono solo en pantallas grandes */
+.reserve-btn .md\:inline-block {
+    display: inline-block; /* Solo en pantallas de escritorio */
+}
+  
+
+.asideMobile{
+    display: none;
+}
+
+
+
+/* Estilos responsive para pantallas pequeñas (móviles) */
+@media screen and (max-width: 768px) {
+    
+    /* Navbar */
+    nav {
+      padding: 10px 16px;
+    }
+  
+    /* LOGOTIPO */
+    nav .logo-container {
+      display: flex;
+      align-items: center;
+    }
+  
+    nav .logo-container span {
+      font-size: 1rem; /* Reduce el tamaño del texto */
+    }
+  
+    nav .logo-container svg {
+      width: 24px;
+      height: 24px; /* Reduce el tamaño del ícono */
+    }
+  
+    /* ACCIONES A LA DERECHA */
+    nav .actions {
+      display: flex;
+      gap: 8px;
+    }
+  
+    nav .actions span {
+      display: none; /* Ocultar el nombre del usuario */
+    }
+  
+    nav .actions button {
+      padding: 6px 8px;
+      font-size: 0.8rem;
+    }
+  
+    .reserve-btn .md\:inline-block {
+        display: none; /* Ocultamos el ícono en móviles */
+    }
+      
+    /* Ajustamos el botón para móviles */
+    .reserve-btn {
+        font-size: 0.875rem; /* Más pequeño en móviles */
+        padding: 0.4rem 0.8rem; /* Reducimos el padding */
+    }
+
+
+    /* BookingModal */
+    .booking-modal {
+        padding: 1rem; /* Espaciado reducido */
+    }
+
+    .dialog-content {
+        max-width: 100% !important;
+    }
+
+    .dialog-header {
+        text-align: center; /* Centrado del encabezado */
+    }
+
+    /* Botones más pequeños en móviles */
+    .button {
+        padding: 0.5rem 1rem;
+    }
+
+    /* Campos de entrada más pequeños */
+    .input, .select {
+        padding: 0.5rem;
+    }
+
+
+    /* Sidebar */
+        /* Ocultar el sidebar por defecto en móviles */
+    .aside {    
+        display: none;
+    }
+
+
+
+    /* SidebarMobile */
+  /* Icono de hamburguesa */
+  .hamburger-icon {
+    display: block;  /* Muestra el icono solo en dispositivos móviles */
+  }
+
+  /* Hamburger button */
+  .hamburger-icon {
+    position: fixed;
+    top: 20px; /* Move it lower */
+    left: 20px; /* Align it to the left */
+    z-index: 60;
+    background-color: black;
+    border-radius: 50%;
+    padding: 12px; /* Make it larger for better interaction */
+  }
+  
+  /* When the menu is open, change the hamburger icon to a cross */
+  .hamburger-icon.open {
+    background-color: red; /* Optional: change color */
+  }
+  
+  .hamburger-icon span {
+    font-size: 24px;
+    color: white;
+  }
+  
+  /* Transform hamburger icon into a cross */
+  .hamburger-icon.open span {
+    transform: rotate(45deg);
+  }
+
+  .asideMobile{
+    display: block;
+  }
+
+  /* Section titles */
+  .asideMobile nav span {
+    font-weight: bold;
+    font-size: 14px;
+    margin-left: 12px;
+    padding: 5px 0; /* Add spacing to make it more readable */
+    color: white;
+    border: none;
+  }
+  
+  /* Language Selector */
+  .asideMobile .mt-auto {
+    margin-bottom: 20px; /* Ensure there's enough space for the language section */
+  }
+  
+  .asideMobile .language-button {
+    margin-top: auto; /* Position it at the bottom */
+  }
+
+  /* Eliminar bordes y sombras indeseadas en los íconos */
+ .link {
+    /* display: flex; */
+    /* align-items: center; */
+    /* padding: 10px; */
+    /* margin-left: 15px;  */
+    /* transition: background-color 0.2s ease; */
+    /* border: none;  */
+    /* outline: none; */
+  }
+  
+
+
+
+}
+  

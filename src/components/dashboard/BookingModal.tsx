@@ -79,7 +79,6 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onBookingS
         return `${newHours}:${newMinutes}`;
     };
 
-
     // Filtrar horarios disponibles cuando se elige una fecha
     useEffect(() => {
         const fetchAvailableTimes = async () => {
@@ -90,23 +89,15 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onBookingS
 
             try {
                 const formattedDate = format(selectedDate, "yyyy-MM-dd");
-                console.log("📅 Fecha seleccionada:", formattedDate);
-                console.log("📋 Doctor seleccionado:", doctors.find((doc) => doc.id === doctor));
-
-
                 const res = await axios.get(
                     `https://anma-medical-backend.onrender.com/api/appointment/doctor/${doctor}`,
                     { headers: { Authorization: `Bearer ${token}` } }
                 );
 
                 const doctorAppointments = res.data;
-                console.log("📋 Citas del doctor:", doctorAppointments);
-
                 const takenTimes = doctorAppointments
-                    .filter((app: { date: string }) => app.date.startsWith(formattedDate)) // 🔹 Comparación flexible
+                    .filter((app: { date: string }) => app.date.startsWith(formattedDate))
                     .map((app: { time: string }) => app.time);
-
-                console.log("⛔ Horarios ocupados:", takenTimes);
 
                 const selectedDoctor = doctors.find((doc) => doc.id === doctor);
                 if (!selectedDoctor) {
@@ -114,13 +105,9 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onBookingS
                     return;
                 }
 
-                const dayOfWeekEnglish = format(selectedDate, "EEEE").toLowerCase(); // Genera en inglés
-                console.log("🗓️ Día de la semana seleccionado:", dayOfWeekEnglish);
+                const dayOfWeekEnglish = format(selectedDate, "EEEE").toLowerCase();
 
                 const availableSlots = selectedDoctor.availableHours[dayOfWeekEnglish] || [];
-                console.log("📆 Horarios de trabajo del doctor:", availableSlots);
-
-                // 🔹 Generamos intervalos de 30 minutos
                 const timeSlots: string[] = [];
                 availableSlots.forEach(slot => {
                     let startTime = slot.start;
@@ -133,33 +120,23 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onBookingS
                     }
                 });
 
-                console.log("✅ Horarios generados:", timeSlots);
-
                 const parseTime = (time: string) => {
                     const [hours, minutes] = time.split(":").map(Number);
-                    return hours * 60 + minutes; // Convertimos a minutos para comparación numérica
+                    return hours * 60 + minutes;
                 };
 
-                // ✅ Filtramos los horarios disponibles asegurándonos de que no hay conflictos
                 const freeTimes = timeSlots.filter(timeSlot => {
                     const [start, end] = timeSlot.split(" - ").map(parseTime);
 
                     return !takenTimes.some((takenTime: string) => {
                         const [takenStart, takenEnd] = takenTime.split(" - ").map(parseTime);
 
-                        // 📌 Validamos que no haya superposición de turnos
                         return (
-                            (start >= takenStart && start < takenEnd) || // Si el inicio del nuevo turno está dentro de uno existente
-                            (end > takenStart && end <= takenEnd)       // Si el final del nuevo turno está dentro de uno existente
+                            (start >= takenStart && start < takenEnd) ||
+                            (end > takenStart && end <= takenEnd)
                         );
                     });
                 });
-                console.log("🟢 Horarios disponibles:", freeTimes);
-
-                console.log("📋 Citas del doctor recibidas:", doctorAppointments);
-                console.log("📅 Fecha seleccionada:", formattedDate);
-                console.log("⛔ Horarios ocupados en la BD:", takenTimes);
-
 
                 setAvailableTimes(freeTimes);
             } catch (error) {
@@ -171,21 +148,15 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onBookingS
         fetchAvailableTimes();
     }, [doctor, selectedDate, doctors, token]);
 
-
-
     // Validar si un día está disponible en el calendario
     const isDayAvailable = (date: Date) => {
-        if (!doctor) return false; // Si no hay doctor seleccionado, no permitir selección
+        if (!doctor) return false;
 
         const availableDays = getAvailableDays();
-        const dayName = format(date, "EEEE", { locale: es }).toLowerCase(); // Día en español
+        const dayName = format(date, "EEEE", { locale: es }).toLowerCase();
 
-        // console.log("🗓️ Día seleccionado:", format(date, "EEEE, dd/MM/yyyy", { locale: es }));
-        // console.log("📅 Días disponibles:", availableDays);
-
-        return availableDays.includes(dayName); // ✅ Solo habilita los días correctos
+        return availableDays.includes(dayName);
     };
-
 
     // Confirmar reserva
     const handleConfirm = async () => {
@@ -199,8 +170,6 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onBookingS
             alert("❌ El horario seleccionado ya está ocupado. Elige otro.");
             return;
         }
-
-        console.log("✅ Cita reservada:", { specialty, doctor, formattedDate, selectedTime });
 
         if (onBookingSuccess) {
             onBookingSuccess({ date: selectedDate, specialty, doctor, time: selectedTime });
@@ -271,8 +240,8 @@ const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, onBookingS
                     <DatePicker
                         selected={selectedDate}
                         onChange={(date) => setSelectedDate(date)}
-                        filterDate={isDayAvailable} // Solo habilita los días en los que trabaja el doctor
-                        minDate={new Date()} // No permite seleccionar fechas pasadas
+                        filterDate={isDayAvailable}
+                        minDate={new Date()}
                         dateFormat="dd/MM/yyyy"
                         locale={t("localeLang")}
                         className="w-full px-4 py-2 border rounded-lg text-gray-700 bg-white"
