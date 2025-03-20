@@ -15,8 +15,8 @@ const Navbar = () => {
     <nav className="bg-primary text-white px-6 py-3 flex justify-between items-center shadow-md fixed w-full top-0 left-0 z-50">
       {/* LOGOTIPO */}
       <div className="logo-container flex items-center gap-2">
-        <HeartPulse size={32} className="text-blue-400" />
-        <span className="text-xl font-semibold tracking-wide font-poppins">
+        <HeartPulse size={32} className="logo-nav text-blue-400" />
+        <span className="marca text-xl font-semibold tracking-wide font-poppins">
           ANMA MEDICAL
         </span>
       </div>
@@ -54,7 +54,7 @@ const Navbar = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={logout}
-          className="flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md transition"
+          className="logout=btn flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md transition"
           aria-label="Cerrar Sesión"
         >
           <LogOut size={20} />

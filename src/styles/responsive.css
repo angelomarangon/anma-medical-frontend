@@ -15,6 +15,71 @@
 }
 
 
+/* Para el navbar en dispositivos móviles */
+@media screen and (max-width: 414px) {
+    /* LOGO */
+    .logo-container {
+      gap: .5rem; /* Reducir el espacio entre el icono y el texto */
+      font-size: 1rem; /* Reducir el tamaño del texto */
+    }
+  
+    .logo-container .marca {
+      font-size: 0.875rem; /* Ajustar tamaño de texto del logo */
+    }
+  
+    .logo-nav {
+      font-size: 1rem; /* Reducir el tamaño del icono */
+    }
+  
+    /* ACCIONES */
+    .actions {
+      gap: 2rem; /* Reducir el espacio entre los botones */
+      justify-content: center; /* Centrar las acciones */
+    }
+  
+    .actions .reserve-btn {
+      padding: 0.355rem 1rem; /* Reducir tamaño del padding */
+      font-size: 0.875rem; /* Ajustar el tamaño de la fuente */
+    }
+  
+    .actions .reserve-btn .hidden.md\:inline-block {
+      display: none; /* Ocultar el icono del botón de reserva en móvil */
+    }
+  
+    .actions .reserve-btn span {
+      display: none; /* Ocultar icono en la versión móvil */
+    }
+  
+    .actions .reserve-btn:hover {
+      scale: 1; /* El botón no cambiará de tamaño al hacer hover */
+    }
+  
+    .actions .reserve-btn:focus {
+      outline: none; /* Eliminar outline cuando se haga foco */
+    }
+  
+    /* Eliminar espaciado innecesario en botones */
+    .logout-btn {
+        padding: 0.5rem 1rem;
+    }
+  
+    .actions .text-sm {
+      font-size: 0.75rem; /* Reducir tamaño de texto */
+    }
+  
+    /* Modal de Reserva */
+    .booking-modal {
+      width: 100%; /* Asegurarse de que el modal ocupe todo el ancho */
+      padding: 1rem; /* Ajustar el padding del modal */
+    }
+  
+    .booking-modal .text-sm {
+      font-size: 0.875rem; /* Reducir el tamaño de la fuente en el modal */
+    }
+  }
+  
+
+
 
 /* Estilos responsive para pantallas pequeñas (móviles) */
 @media screen and (max-width: 768px) {
@@ -152,19 +217,11 @@
     margin-top: auto; /* Position it at the bottom */
   }
 
-  /* Eliminar bordes y sombras indeseadas en los íconos */
- .link {
-    /* display: flex; */
-    /* align-items: center; */
-    /* padding: 10px; */
-    /* margin-left: 15px;  */
-    /* transition: background-color 0.2s ease; */
-    /* border: none;  */
-    /* outline: none; */
-  }
   
 
 
 
 }
   
+
+
